@@ -1,0 +1,24 @@
+.card_container{
+width: 50%;
+border: 2px solid #7B2CBF;
+background-color: #f6f6f6;
+padding: 1rem;
+border-radius: 8px;
+text-align: start;
+margin: 2rem 0;
+
+}
+
+
+.cta_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+span{
+    margin: 0 1rem;
+    cursor: pointer;
+    font-weight: 500;
+}
