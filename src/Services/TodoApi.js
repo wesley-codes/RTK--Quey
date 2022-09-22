@@ -19,9 +19,12 @@ export const todoApi = createApi({
           "Content-type": "application/json; charset=UTF-8",
         },
       }),
+      invalidatesTags: ["Todo"]
     }),
     getAllTodos: builder.query({
       query: () => "/posts",
+      providesTags: ["Todo"]
+
     }),
     updateTodo: builder.mutation({
       query: ({ id, ...todo }) => ({
@@ -35,6 +38,8 @@ export const todoApi = createApi({
           "Content-type": "application/json; charset=UTF-8",
         },
       }),
+      invalidatesTags: ["Todo"]
+
     }),
     deleteTodo: builder.mutation({
       query: ({ id, ...todo }) => ({
@@ -48,6 +53,8 @@ export const todoApi = createApi({
           "Content-type": "application/json; charset=UTF-8",
         },
       }),
+      invalidatesTags: ["Todo"]
+
     }),
   }),
 });

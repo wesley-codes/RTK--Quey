@@ -8,12 +8,12 @@ import { useAddTodoMutation, useGetAllTodosQuery } from "./Services/TodoApi";
 
 function App() {
   const [showModal, setShowModal] = useState(false);
-  const { data, error, isLoading, isFetching } = useGetAllTodosQuery();
+  const { data, error, isLoading, isFetching, refetch } = useGetAllTodosQuery();
   const [todo, setTodo] = useState({
     title: "",
     body: "",
   });
-  const [addTask, result] = useAddTodoMutation();
+  const [addTodo, result] = useAddTodoMutation();
   const todochangeHandler = (e) => {
     setTodo({ body: e.target.value, title: todo.title });
   };
@@ -22,8 +22,9 @@ function App() {
     setTodo({ title: e.target.value, body: todo.body });
   };
 
-  const addTodo = () => {
-    addTask({
+  //add a todo
+  const addTodoHandler= () => {
+    addTodo({
       title: todo.title,
       body: todo.body,
       id: Math.floor(Math.random() * 100),
@@ -32,18 +33,22 @@ function App() {
       .then((data) => {
         console.log(data);
       });
+      // force re-fetches the data
+    refetch()
     setShowModal(false);
   };
 
   return (
     <div className="App">
       <Navbar setModal={setShowModal} />
-      {error && <p>Something went wrong</p>}
-      {isFetching && <p>Loading ...</p>}
-      {isLoading && <p>Loading ...</p>}
+     <div>
+     {error && <p>Something went wrong</p>}
+      {isFetching && <p>fetching ...</p>}
+     {isLoading && <p>Loading ...</p>}
       {data?.map((todo) => (
         <Card key={todo.id} id={todo.id} todos={todo.body} />
       ))}
+     </div>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <h2 className="title">ADD TODO</h2>
@@ -61,7 +66,7 @@ function App() {
             placeholder="todo"
           />
 
-          <button onClick={addTodo}>ADD</button>
+          <button onClick={addTodoHandler}>ADD</button>
         </Modal>
       )}
     </div>

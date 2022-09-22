@@ -7,15 +7,14 @@ import {
 } from "../../Services/TodoApi";
 const Card = ({ todos, id }) => {
   const [editModal, setEditModal] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
 
   const [todo, setTodo] = useState({
     title: "",
     body: "",
   });
 
-  const [deleteTask] = useDeleteTodoMutation();
-  const [updateTask] = useUpdateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
+  const [updateTodo] = useUpdateTodoMutation();
   const titleUpdateHandler = (e) => {
     setTodo({ title: e.target.value, body: todo.title });
   };
@@ -24,10 +23,9 @@ const Card = ({ todos, id }) => {
     setTodo({ title: todo.title, body: e.target.value });
   };
 
-  const UpdateTodo = () => {
-    //console.log({id,...todo})
+  const UpdateTodoHandler = () => {
 
-    updateTask({ id, ...todo })
+    updateTodo({ id, ...todo })
       .unwrap()
       .then((data) => {
         console.log(data);
@@ -39,19 +37,17 @@ const Card = ({ todos, id }) => {
     setEditModal(false);
   };
 
-  const DeleteTodo = () => {
-    //console.log({id,...todo})
-
-    deleteTask({ id, ...todo })
+  const DeleteTodoHandler = () => {
+    
+    deleteTodo({id})
       .unwrap()
       .then((data) => {
-        console.log(data);
+        console.log("Todo deleted");
       })
       .catch((err) => {
         console.log(err);
       });
 
-    setDeleteModal(false);
   };
 
   return (
@@ -75,38 +71,17 @@ const Card = ({ todos, id }) => {
               placeholder="todo"
             />
 
-            <button onClick={UpdateTodo}>ADD</button>
+            <button onClick={UpdateTodoHandler}>ADD</button>
           </Modal>
         )}
         <span style={{ color: "#7B2CBF" }} onClick={() => setEditModal(true)}>
           Edit
         </span>
 
-        {deleteModal && (
-          <Modal onClose={() => setDeleteModal(false)}>
-            <h2 className="title">ADD TODO</h2>
-            <input
-              type="text"
-              className=""
-              onChange={titleUpdateHandler}
-              placeholder="title"
-            />
-
-            <input
-              type="text"
-              className=""
-              onChange={todoUpdateHandler}
-              placeholder="todo"
-            />
-
-            <button onClick={DeleteTodo}>ADD</button>
-          </Modal>
-        )}
+       
         <span
           style={{ color: "red" }}
-          onClick={() => {
-            setDeleteModal(true);
-          }}
+          onClick={DeleteTodoHandler}
         >
           Delete
         </span>
